@@ -1,0 +1,104 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Fusion Selector Language",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#support"
+		},
+		{
+			"include": "#constant"
+		},
+		{
+			"include": "#variable"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.fsl",
+					"match": "CREATE|UPDATE|FLUSH|DROP|ENTRYPOINT|DECLARE",
+					"comment": "FCL (Framework Control Language)"
+				},
+				{
+					"name": "keyword.control.fsl",
+					"match": "TABLE|INTO|APPEND|ACTION|SET|ID|WHERE|HASH|BY|AND|OR"
+				},
+				{
+					"name": "keyword.control.fsl",
+					"match": "SET|UNSET|LINK|UNLINK",
+					"comment": "LCL (Lifecycle Control Language)"
+				}
+			]
+		},
+		"constant": {
+			"patterns": [
+				{
+					"name": "constant.character",
+					"match": "false|true"
+				},
+				{
+					"name": "constant.character",
+					"match": "NOP|ABORT|AGAIN|RETURN|GOTO",
+					"comment": "跳转状态 (STATE)"
+				},
+				{
+					"match": "\\b(now|http|string|socket|transport)\\.(\\w+)",
+					"captures": {
+						"1": {
+							"name": "constant.character"
+						},
+						"2": {
+							"name": "variable.name"
+						}
+					}
+				}
+			]
+		},
+		"variable": {
+			"patterns": [
+				{
+					"match": "(?i)(@\\w+)::(Boolean|Integer|Float|String|Inet|Timestamp|Interval|Array)",
+					"captures": {
+						"1": {
+							"name": "variable.name"
+						},
+						"2": {
+							"name": "support.type"
+						}
+					}
+				},
+				{
+					"match": "(?i)::(ARRAY)",
+					"captures": {
+						"1": {
+							"name": "support.type"
+						}
+					}
+				},
+				{
+					"name": "support.function",
+					"match": "http_parse|get_http_all_headers|get_http_cookie|string_to_inet|string_to_inet|inet_to_string"
+				}
+			]
+		},
+		"strings": {
+			"name": "string.quoted.double.fsl",
+			"begin": "'",
+			"end": "'",
+			"patterns": [
+				{
+					"name": "constant.character.escape.fsl",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.fsl"
+}
